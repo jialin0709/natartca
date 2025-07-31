@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MBTI蛋挞推荐测试</title>
+<style>
+  body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: #fff8f0;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    max-width: 600px;
+    margin: auto;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  .question {
+    margin-bottom: 30px;
+  }
+  .question h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  .options button {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    margin: 10px;
+    width: 80%;
+    max-width: 250px;
+    border: none;
+    border-radius: 12px;
+    background: #ffb84d;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .options button:hover {
+    background: #ff9900;
+  }
+  #result {
+    margin-top: 30px;
+    font-size: 1.4rem;
+    color: #d35400;
+    min-height: 2em;
+  }
+</style>
+</head>
+<body>
+
+<h1>测试你的MBTI最适合哪款蛋挞</h1>
+<div id="quiz"></div>
+<div id="result"></div>
+
+<script>
+  // 4道题，对应MBTI四个维度
+  const questions = [
+    { 
+      text: "1. 在派对上，你更喜欢：", 
+      options: [
+        { text: "和很多人热闹聊天", value: "E" },
+        { text: "和熟悉的人安静相处", value: "I" }
+      ]
+    },
+    { 
+      text: "2. 你更信赖：", 
+      options: [
+        { text: "现实的细节和经验", value: "S" },
+        { text: "直觉和未来的可能性", value: "N" }
+      ]
+    },
+    { 
+      text: "3. 做决定时你更看重：", 
+      options: [
+        { text: "逻辑和客观分析", value: "T" },
+        { text: "感受和他人情绪", value: "F" }
+      ]
+    },
+    { 
+      text: "4. 你的生活方式更像：", 
+      options: [
+        { text: "有计划和条理", value: "J" },
+        { text: "随性灵活应变", value: "P" }
+      ]
+    }
+  ];
+
+  // MBTI对应蛋挞口味
+  const mbtiToTart = {
+    ISTJ: "Taro Egg Tart",
+    ISFJ: "Original Portuguese Tart",
+    INFJ: "Ube Cheese Egg Tart",
+    INTJ: "Espresso Tart", 
+    ISTP: "Salty boy Tart",
+    ISFP: "Original Portuguese Tart",
+    INFP: "Original Portuguese Tart",
+    INTP: "Original Portuguese Tart",
+    ESTP: "Matcha",
+    ESFP: "Original Portuguese Tart",
+    ENFP: "Creme Brulee Egg Tart",
+    ENTP: "Durian tart",
+    ESTJ: "Cheese & corn Svory Tart",
+    ESFJ: "Original Sunflower Tarr",
+    ENFJ: "Tiramisu Sunflower Tart",
+    ENTJ: "Chocolate Tart"
+  };
+
+  const quizDiv = document.getElementById("quiz");
+  const resultDiv = document.getElementById("result");
+
+  let answers = [];
+
+  function showQuestion(index) {
+    if (index >= questions.length) {
+      showResult();
+      return;
+    }
+    const q = questions[index];
+    quizDiv.innerHTML = `
+      <div class="question">
+        <h2>${q.text}</h2>
+        <div class="options">
+          ${q.options.map((opt, i) => 
+            `<button onclick="choose('${opt.value}', ${index})">${opt.text}</button>`
+          ).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function choose(value, index) {
+    answers[index] = value;
+    showQuestion(index + 1);
+  }
+
+  function showResult() {
+    const mbti = answers.join("");
+    const tart = mbtiToTart[mbti] || "原味蛋挞";
+    quizDiv.innerHTML = "";
+    resultDiv.innerHTML = `你的MBTI是 <b>${mbti}</b> 🍮<br>最适合你的蛋挞是：<b>${tart}</b>`;
+  }
+
+  // 初始化显示第一题
+  showQuestion(0);
+</script>
+
+</body>
+</html>
